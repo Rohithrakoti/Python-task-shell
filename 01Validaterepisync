@@ -1,0 +1,30 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: repo-sync-vars   # 👈 variable group linked
+
+steps:
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+  displayName: 'Use Python'
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    python validateRepoSync.py
+  displayName: 'Run Repo Sync Validation'
+  env:
+    ORG1_URL: $(ORG1_URL)
+    ORG2_URL: $(ORG2_URL)
+    ORG1_PAT: $(ORG1_PAT)
+    ORG2_PAT: $(ORG2_PAT)
+    PROJECT_NAME: $(PROJECT_NAME)
