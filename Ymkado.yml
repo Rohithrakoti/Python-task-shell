@@ -1,0 +1,20 @@
+parameters:
+- name: start
+  type: number
+  default: 0
+
+- name: end
+  type: number
+  default: 100
+
+
+
+- script: python validateRepoSync.py
+  env:
+    START_INDEX: ${{ parameters.start }}
+    END_INDEX: ${{ parameters.end }}
+    ORG1_URL: $(ORG1_URL)
+    ORG2_URL: $(ORG2_URL)
+    ORG1_PAT: $(ORG1_PAT)
+    ORG2_PAT: $(ORG2_PAT)
+    PROJECT_NAME: $(PROJECT_NAME)
